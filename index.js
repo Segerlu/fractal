@@ -1,40 +1,44 @@
 function setup() {
-    createCanvas(windowWidth, windowHeight*.75);
+    createCanvas(windowWidth*.99, windowHeight*.75);
     background(0);
     noLoop();
 
     let angleContainer = createDiv("Angle:");
     angleContainer.addClass("container");
     angleSlider = createSlider(0, TWO_PI, PI / 4, 0.01);
-    angleSlider.addClass("sliders");
+    angleSlider.addClass("inputs");
     angleContainer.child(angleSlider);
 
     let sizeContainer = createDiv("Zoom:");
     sizeContainer.addClass("container");
     sizeSlider = createSlider(50, 500, 100, 10);
-    sizeSlider.addClass("sliders");
+    sizeSlider.addClass("inputs");
     sizeContainer.child(sizeSlider);
 
     let branchContainer = createDiv("Branches:");
     branchContainer.addClass("container");
     branchSlider = createSlider(0.4, 0.75, 0.6, .01);
-    branchSlider.addClass("sliders");
+    branchSlider.addClass("inputs");
     branchContainer.child(branchSlider);
 
     let radioContainer = createDiv("Which way do you want to tree to lean?");
     radioContainer.addClass("container");
     lean = createRadio();
+    // lean.addClass("inputs");
     lean.option('left');
     lean.option('center');
     lean.option('right');
     lean.style('width', '800px');
     radioContainer.child(lean);
 
+    let inputs = selectAll(".inputs");
+
+    for (let i = 0; i < inputs.length; i++) {
+        inputs[i].input(redraw);
+        // console.log(inputs[i]);
+    }
     lean.input(redraw);
-    branchSlider.input(redraw);
-    angleSlider.input(redraw);
-    sizeSlider.input(redraw);
-}
+}        
 
 function draw() {
 
@@ -72,4 +76,9 @@ function drawLine(angle, length, offset) {
         pop();
     }
 
+}
+
+function windowResized() {
+    createCanvas(windowWidth*.99, windowHeight*.75);
+    redraw();
 }
